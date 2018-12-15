@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 public class Cards extends AppCompatActivity {
 char[] color = {'S' , 'D' , 'H' , 'C'};
+int card[] = new int[52];
 int value;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -12,12 +13,10 @@ int value;
         setContentView(R.layout.activity_cards);
     }
     public  Cards(int value){
-        for (int i = 0;i >= value;i++){
-            System.out.print((value % 13) + color[(value / 13)]);
+       this.value = value;
         }
-    }
-    public void get(int value) {
-this.value = value;
+    public String get() {
+return (value % 13) + (color[value / 13])+ "";
 
     }
 }
