@@ -10,42 +10,47 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+    Poker poker = new Poker();
+    private RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView recycler = findViewById(R.id.recycler);
-        recycler.setHasFixedSize(true);
-        recycler.setLayoutManager(new LinearLayoutManager(this));
-
-    }
-    class PokerAdapter extends RecyclerView.Adapter<PokerAdapter.PokerViewHolder>{
+        poker.shuffle();
+        poker.print();
+        recyclerView = findViewById(R.id.recycler);
+       recyclerView.setHasFixedSize(true);
+       recyclerView.setLayoutManager(new LinearLayoutManager(this));
+       recyclerView.setAdapter(new PokerAdapter());
+        }
+    class  PokerAdapter extends RecyclerView.Adapter<PokerAdapter.PokerHolder> {
         @NonNull
         @Override
-        public PokerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = getLayoutInflater().inflate(R.layout.row , viewGroup , false);
-            return new PokerViewHolder(view);
+        public PokerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View  view = getLayoutInflater()
+                    .inflate(R.layout.poker_row, parent , false);
+            return new PokerHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull PokerViewHolder pokerViewHolder, int i) {
-
+        public void onBindViewHolder(@NonNull PokerHolder holder, int position) {
+holder.pokertext.setText(poker.cards[position].get());
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return poker.cards.length;
         }
 
-        class PokerViewHolder extends RecyclerView.ViewHolder{
+        class PokerHolder extends RecyclerView.ViewHolder {
             TextView pokertext;
-           public PokerViewHolder (View itemView){
-               super(itemView);
-               pokertext = findViewById(R.id.textpoker);
-           }
+            public PokerHolder(@NonNull View itemView) {
+                super(itemView);
+                pokertext = itemView.findViewById(R.id.poker_text);
+            }
         }
     }
-
     }
 
 
